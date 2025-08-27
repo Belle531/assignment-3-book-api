@@ -1,66 +1,41 @@
-const express =require('express');
- const app = express();
- const port = 3000;
+const express = require('express');
+const smartLogger = require('./middlewares/smartLogger');
+const basicAuth = require('./middlewares/basicAuth');
+const verifyToken = require('./middlewares/verifyToken');
+const booksRouter = require('./routes/books');
+const borrowsRouter = require('./routes/borrows');
 
-    app.get('/', (req, res) => {
-        res.send('Welcome to Cassandra\'s Assignment-3-Book API!');
-    });
-    app.listen(port, () => {
-        console.log(`Server is running on http://localhost:${port}`);
-    });
-    
-    app.use(express.json());
-    
-    // In-memory book storage
-    let books = [];
-    let nextId = 1;
-    
-    // CREATE: Add a new book
-    app.post('/books', (req, res) => {
-        const { title, author } = req.body;
-        if (!title || !author) {
-            return res.status(400).json({ error: 'Title and author are required.' });
-        }
-        const book = { id: nextId++, title, author };
-        books.push(book);
-        res.status(201).json(book);
-    });
-    
-    // READ: Get all books
-    app.get('/books', (req, res) => {
-        res.json(books);
-    });
-    
-    // READ: Get a book by ID
-    app.get('/books/:id', (req, res) => {
-        const id = parseInt(req.params.id);
-        const book = books.find(b => b.id === id);
-        if (!book) {
-            return res.status(404).json({ error: 'Book not found.' });
-        }
-        res.json(book);
-    });
-    
-    // UPDATE: Update a book by ID
-    app.put('/books/:id', (req, res) => {
-        const id = parseInt(req.params.id);
-        const { title, author } = req.body;
-        const book = books.find(b => b.id === id);
-        if (!book) {
-            return res.status(404).json({ error: 'Book not found.' });
-        }
-        if (title) book.title = title;
-        if (author) book.author = author;
-        res.json(book);
-    });
-    
-    // DELETE: Remove a book by ID
-    app.delete('/books/:id', (req, res) => {
-        const id = parseInt(req.params.id);
-        const index = books.findIndex(b => b.id === id);
-        if (index === -1) {
-            return res.status(404).json({ error: 'Book not found.' });
-        }
-        const deleted = books.splice(index, 1);
-        res.json(deleted[0]);
-    });
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+app.use(smartLogger); // Log every request
+
+// Login route with basicAuth
+app.post('/login', basicAuth, (req, res) => {
+    // On success, return a token (for demo, just a static token)
+    res.json({ token: 'secret-token' });
+});
+
+// Protect all routes after login
+app.use(verifyToken);
+
+// Attach book and borrow data to req for middleware access
+app.use((req, res, next) => {
+    req.books = global.books = global.books || [];
+    req.borrows = global.borrows = global.borrows || [];
+    req.nextBookId = global.nextBookId = global.nextBookId || 1;
+    req.nextBorrowId = global.nextBorrowId = global.nextBorrowId || 1;
+    next();
+});
+
+app.get('/', (req, res) => {
+    res.send("Welcome to Cassandra's Assignment-3-Book API!");
+});
+
+app.use('/books', booksRouter);
+app.use('/borrows', borrowsRouter);
+
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
