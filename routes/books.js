@@ -1,7 +1,27 @@
+
 const express = require('express');
 const router = express.Router();
 const verifyBook = require('../middlewares/verifyBook');
-const { findBook } = require('../storage');
+const storage = require('../storage');
+
+// BULK UPLOAD: Add multiple books at once
+router.post('/bulk', (req, res) => {
+	const booksArray = req.body;
+	if (!Array.isArray(booksArray)) {
+		return res.status(400).json({ error: 'Request body must be an array of books.' });
+	}
+	const addedBooks = [];
+	booksArray.forEach(bookData => {
+		const { title, author } = bookData;
+		if (title && author) {
+			const book = { id: storage.nextBookId, title, author, borrowed: false };
+			storage.books.push(book);
+			storage.nextBookId++;
+			addedBooks.push(book);
+		}
+	});
+	res.status(201).json({ added: addedBooks.length, books: addedBooks });
+});
 
 // CREATE: Add a new book
 router.post('/', (req, res) => {
@@ -9,8 +29,9 @@ router.post('/', (req, res) => {
 	if (!title || !author) {
 		return res.status(400).json({ error: 'Title and author are required.' });
 	}
-	const book = { id: req.nextBookId++, title, author, borrowed: false };
-	req.books.push(book);
+	const book = { id: storage.nextBookId, title, author, borrowed: false };
+	storage.books.push(book);
+	storage.nextBookId++;
 	res.status(201).json(book);
 });
 

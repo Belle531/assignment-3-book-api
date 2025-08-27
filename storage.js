@@ -3,7 +3,7 @@
 let books = [];
 let borrows = [];
 let nextBookId = 1;
-let nextBorrowId = 1;
+let nextBorrowId = 2;
 
 function findBook(id) {
     return books.find(b => b.id === id);
