@@ -86,7 +86,26 @@ POST /books/1/borrow
 GET /borrows
 ```
 
-## Notes
+## Special Rules & Features
 
+- **Error Handling:**
+- All endpoints return clear error messages for missing data, invalid IDs, duplicate borrows, and authentication failures.
+- Middlewares handle 401 (unauthorized) and 404 (not found) errors.
+- Bulk upload endpoint checks for valid array and required fields.
+
+- **Testing:**
+- You can test all endpoints in Postman using the provided example requests.
+- Try edge cases: borrow already borrowed book, return a book not borrowed, delete non-existent borrow, invalid token, etc.
+
+- **Improvements:**
+- Professional folder structure for maintainability.
+- Bulk upload for fast data population.
+- Easy to add persistent storage (file or database) if needed.
+- Ready for automated testing and further enhancements.
+
+- **Data Persistence:**
 - Data is stored in memory and will reset when the server restarts.
-- This project is for learning purposes and does not use a database.
+- For permanent storage, integrate a database or file system.
+
+- **Learning Purpose:**
+- This project is for learning and demonstration, not for production use.
