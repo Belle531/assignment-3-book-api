@@ -72,14 +72,14 @@ This project is a Book API built with Express.js, demonstrating CRUD operations 
 # Create a book
 POST /books
 {
-   "title": "The Great Gatsby",
-   "author": "F. Scott Fitzgerald"
+   "title": "The PURPOSE & POWER OF THE HOLY SPIRIT",
+   "author": "DR. MYLES MUNROE"
 }
 
 # Borrow a book
 POST /books/1/borrow
 {
-   "client": "Alice"
+   "client": "MYLES"
 }
 
 # List all borrows
