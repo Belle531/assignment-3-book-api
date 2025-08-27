@@ -1,67 +1,89 @@
 # Assignment 3 - Book API
 
-This project is a simple Book API built with Express.js. It demonstrates basic CRUD operations (Create, Read, Update, Delete) for managing books using an in-memory array.
+This project is a Book API built with Express.js, demonstrating CRUD operations and a borrow/return system using in-memory storage. The codebase uses a professional folder structure with separate routes and middlewares.
 
 ## Features
 
-- **Create a Book**: Add a new book with a title and author.
-- **Read Books**: Retrieve all books or a single book by ID.
-- **Update a Book**: Modify the title or author of an existing book.
-- **Delete a Book**: Remove a book by its ID.
+- **Create, Read, Update, Delete Books**
+- **Borrow and Return Books**
+- **Check Book Availability**
+- **List and Manage Borrows**
+- **Authentication and Authorization**
+- **Request Logging**
+
+## Folder Structure
+
+- `/routes` — Contains route files for books and borrows
+- `/middlewares` — Contains middleware for logging, authentication, and validation
+- `/storage.js` — Shared in-memory storage and helpers
+- `index.js` — Main server file
+
+## Middleware
+
+- `smartLogger`: Logs every request
+- `basicAuth`: Protects `/login` route
+- `verifyToken`: Protects all routes after login
+- `verifyBook`: Ensures a book exists before using it
+- `verifyBorrow`: Ensures a borrow exists before using it
 
 ## Endpoints
 
-### Create a Book
+### Book Endpoints
 
-- `POST /books`
-- Request body: `{ "title": "Book Title", "author": "Author Name" }`
-- Response: The created book object
+- `POST /books` — Add a new book
+- `GET /books` — List all books
+- `GET /books/:id` — Get a book by ID
+- `PUT /books/:id` — Update a book
+- `DELETE /books/:id` — Delete a book
+- `POST /books/:id/borrow` — Borrow a book (requires client name)
+- `POST /books/:id/return` — Return a borrowed book
+- `GET /books/:id/availability` — Check if a book is borrowed
 
-### Get All Books
+### Borrow Endpoints
 
-- `GET /books`
-- Response: Array of all books
+- `GET /borrows` — List all borrows
+- `DELETE /borrows/:id` — Delete a borrow
+- `GET /borrows/availability/:id` — Check if a book is available
+- `GET /borrows/client/:name` — Get all borrows for a specific client
 
-### Get a Book by ID
+### Auth Endpoints
 
-- `GET /books/:id`
-- Response: The book object with the specified ID
-
-### Update a Book
-
-- `PUT /books/:id`
-- Request body: `{ "title": "New Title", "author": "New Author" }`
-- Response: The updated book object
-
-### Delete a Book
-
-- `DELETE /books/:id`
-- Response: The deleted book object
+- `POST /login` — Basic authentication, returns a token
 
 ## How to Run
 
 1. Install dependencies:
 
-   ```bash
-   npm install express
-   ```
+    ```bash
+    npm install express
+    ```
 
 2. Start the server:
 
-   ```bash
-   node index.js
-   ```
+    ```bash
+    node index.js
+    ```
 
 3. The API will be available at `http://localhost:3000`
 
-## Example Request
+## Example Requests
 
 ```http
+# Create a book
 POST /books
 {
-  "title": "The Great Gatsby",
-  "author": "F. Scott Fitzgerald"
+   "title": "The Great Gatsby",
+   "author": "F. Scott Fitzgerald"
 }
+
+# Borrow a book
+POST /books/1/borrow
+{
+   "client": "Alice"
+}
+
+# List all borrows
+GET /borrows
 ```
 
 ## Notes
