@@ -191,4 +191,44 @@ fetch[('http://localhost:3000/books',] {
 .then(res => res.json())
 .then(books => { /*display books*/ });
 
+
+## How to Add and Test a Book
+
+### 1. Add a Book (using Postman)
+
+- **Method:** POST
+- **URL:** `http://localhost:3000/books`
+- **Authorization:** Bearer Token (`secret-token`)
+- **Body:** Raw, JSON
+
+```json
+{
+  "title": "Test Book",
+  "author": "Test Author"
+}
+```
+
+### 2. Test Book Addition
+
+- **Method:** GET
+- **URL:** `http://localhost:3000/books`
+- **Authorization:** Bearer Token (`secret-token`)
+
+**Expected Result:**
+You should see a list of books including the one you just added:
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Test Book",
+    "author": "Test Author",
+    "borrowed": false
+  }
+]
+```
+
+You can repeat the POST step to add more books and see them in the GET response.
+
+---
 This summary covers the main features, errors, fixes, and learning points from your Book API project.
