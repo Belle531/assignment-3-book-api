@@ -52,60 +52,67 @@ This project is a Book API built with Express.js, demonstrating CRUD operations 
 
 ## How to Run
 
-1. Install dependencies:
+1. Create a `package.json` file (if not present):
 
     ```bash
-    npm install express
+    npm init -y
     ```
 
-2. Start the server:
+2. Install dependencies:
+
+    ```bash
+    npm install express cors
+    ```
+
+3. Start the server:
 
     ```bash
     node index.js
     ```
 
-3. The API will be available at `http://localhost:3000`
+4. The API will be available at `http://localhost:3000`
+
+5. For fast bulk upload, use the `books-bulk.json` file:
+    - In Postman, set the body to "raw" and "JSON", then copy-paste the contents of `books-bulk.json` to quickly add multiple books.
 
 ## Example Requests
 
+### Create a book
+
 ```http
-# Create a book
 POST /books
 {
-   "title": "The PURPOSE & POWER OF THE HOLY SPIRIT",
-   "author": "DR. MYLES MUNROE"
+    "title": "The PURPOSE & POWER OF THE HOLY SPIRIT",
+    "author": "DR. MYLES MUNROE"
 }
+```
 
-# Borrow a book
+### Borrow a book
+
+```http
 POST /books/1/borrow
 {
-   "client": "MYLES"
+    "client": "MYLES"
 }
+```
 
-# List all borrows
+### List all borrows
+
+```http
 GET /borrows
 ```
 
-## Special Rules & Features
+## Error Handling
 
-- **Error Handling:**
 - All endpoints return clear error messages for missing data, invalid IDs, duplicate borrows, and authentication failures.
 - Middlewares handle 401 (unauthorized) and 404 (not found) errors.
-- Bulk upload endpoint checks for valid array and required fields.
 
-- **Testing:**
-- You can test all endpoints in Postman using the provided example requests.
-- Try edge cases: borrow already borrowed book, return a book not borrowed, delete non-existent borrow, invalid token, etc.
+## Improvements
 
-- **Improvements:**
 - Professional folder structure for maintainability.
-- Bulk upload for fast data population.
-- Easy to add persistent storage (file or database) if needed.
-- Ready for automated testing and further enhancements.
-
-- **Data Persistence:**
 - Data is stored in memory and will reset when the server restarts.
 - For permanent storage, integrate a database or file system.
 
-- **Learning Purpose:**
+## Learning Purpose
+
 - This project is for learning and demonstration, not for production use.

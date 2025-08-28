@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to Cassandra's Assignment-3-Book API!</title>
+</head>
+<body>
+  <center><h1>Welcome to Cassandra's Assignment-3-Book API!</h1></center>
+  <ul id="book-list"></ul>
+  <script>
+    // Replace with your token after login
+    const token = 'secret-token';
+ // checking for books
+    fetch('http://localhost:3000/books', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(books => {
+      const list = document.getElementById('book-list');
+      books.forEach(book => {
+        const li = document.createElement('li');
+        li.textContent = `ID: ${book.id} - ${book.title} by ${book.author}`;
+        list.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>

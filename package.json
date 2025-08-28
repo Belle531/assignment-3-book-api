@@ -1,0 +1,24 @@
+{
+  "name": "assignment-3-book-api",
+  "version": "1.0.0",
+  "description": "This project is a Book API built with Express.js, demonstrating CRUD operations and a borrow/return system using in-memory storage. The codebase uses a professional folder structure with separate routes and middlewares.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Belle531/assignment-3-book-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Belle531/assignment-3-book-api/issues"
+  },
+  "homepage": "https://github.com/Belle531/assignment-3-book-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}
