@@ -59,7 +59,9 @@ router.post('/:id/borrow', verifyBook, (req, res) => {
 });
 
 // RETURN: Return a borrowed book
+// RETURN: Return a borrowed book
 router.post('/:id/return', verifyBook, (req, res) => {
+	// Before: Only checks if book is borrowed, then returns it and removes borrow record
 	if (!req.book.borrowed) {
 		return res.status(400).json({ error: 'Book is not currently borrowed.' });
 	}
@@ -67,6 +69,7 @@ router.post('/:id/return', verifyBook, (req, res) => {
 	// Remove borrow record
 	const index = req.borrows.findIndex(b => b.bookId === req.book.id);
 	if (index !== -1) req.borrows.splice(index, 1);
+	// After: Returns success message and book object
 	res.json({ message: 'Book returned successfully.', book: req.book });
 });
 
