@@ -1,4 +1,33 @@
-# Assignment 3 - Book API
+
+# Book ID Bug & Solution
+
+**Problem:**
+Books were added but all had the same ID, and listing books did not show the correct data.
+
+**Cause:**
+Book operations used different storage variables (`req.books` vs `storage.books`), and the book ID was not incremented globally.
+
+**Fix:**
+Change all book operations to use `global.books` and `global.
+
+nextBookId` for adding and listing books.
+
+- This ensures unique IDs and consistent data.
+
+**How to Fix:**
+In `routes/books.js`, use:
+
+js
+const book = { id: global.nextBookId, title, author, borrowed: false };
+global.books.push(book);
+global.nextBookId++;
+
+And for listing:
+
+js
+res.json(global.books);
+
+## Assignment 3 - Book API
 
 This project is a Book API built with Express.js, demonstrating CRUD operations and a borrow/return system using in-memory storage. The codebase uses a professional folder structure with separate routes and middlewares.
 

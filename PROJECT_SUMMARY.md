@@ -191,7 +191,6 @@ fetch[('http://localhost:3000/books',] {
 .then(res => res.json())
 .then(books => { /*display books*/ });
 
-
 ## How to Add and Test a Book
 
 ### 1. Add a Book (using Postman)
