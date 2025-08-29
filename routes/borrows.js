@@ -18,8 +18,8 @@ router.get('/', (req, res) => {
 
 // DELETE /borrows/:id → delete a borrow
 router.delete('/:id', verifyBorrow, (req, res) => {
-	const index = req.borrows.findIndex(b => b.id === req.borrow.id);
-	const deleted = req.borrows.splice(index, 1);
+	const index = global.borrows.findIndex(b => b.id === req.borrow.id);
+	const deleted = global.borrows.splice(index, 1);
 	res.json(deleted[0]);
 });
 
