@@ -1,3 +1,12 @@
+// GET /borrows/:id → get a borrow by ID
+router.get('/:id', (req, res) => {
+	const id = parseInt(req.params.id);
+	const borrow = req.borrows.find(b => b.id === id);
+	if (!borrow) {
+		return res.status(404).json({ error: 'Borrow not found.' });
+	}
+	res.json(borrow);
+});
 const express = require('express');
 const router = express.Router();
 const verifyBorrow = require('../middlewares/verifyBorrow');
