@@ -1,3 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const verifyBorrow = require('../middlewares/verifyBorrow');
+
 // GET /borrows/:id → get a borrow by ID
 router.get('/:id', (req, res) => {
 	const id = parseInt(req.params.id);
@@ -7,9 +11,6 @@ router.get('/:id', (req, res) => {
 	}
 	res.json(borrow);
 });
-const express = require('express');
-const router = express.Router();
-const verifyBorrow = require('../middlewares/verifyBorrow');
 
 // GET /borrows → list all borrows
 router.get('/', (req, res) => {
